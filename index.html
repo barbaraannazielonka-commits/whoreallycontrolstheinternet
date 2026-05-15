@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Who Controls the Internet? | Tech Giants & Global Power</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --surface2: #1a1a24;
+    --accent: #e8ff47;
+    --accent2: #ff6b35;
+    --accent3: #4dffce;
+    --text: #f0f0f5;
+    --muted: #7a7a90;
+    --border: rgba(255,255,255,0.08);
+    --nav-bg: rgba(10,10,15,0.85);
+  }
+
+  html.light {
+    --bg: #f5f4ef;
+    --surface: #eceae2;
+    --surface2: #e2dfd5;
+    --accent: #5a7a00;
+    --accent2: #c94a10;
+    --accent3: #007a5e;
+    --text: #1a1a1a;
+    --muted: #666655;
+    --border: rgba(0,0,0,0.1);
+    --nav-bg: rgba(245,244,239,0.9);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 17px;
+    line-height: 1.75;
+    overflow-x: hidden;
+  }
+
+  /* ---- NOISE OVERLAY ---- */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  /* ---- NAV ---- */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--nav-bg);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .theme-toggle {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    padding: 0.4rem 0.85rem;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-shrink: 0;
+  }
+
+  .theme-toggle:hover {
+    background: var(--surface);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* light mode overrides for specific elements */
+  html.light .hero-grid {
+    background-image:
+      linear-gradient(rgba(0,0,0,0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,0,0,0.07) 1px, transparent 1px);
+  }
+
+  html.light .hero-glow {
+    background: radial-gradient(circle, rgba(90,122,0,0.08) 0%, transparent 70%);
+  }
+
+  html.light body::before { opacity: 0.15; }
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    transition: color 0.2s;
+    padding: 0;
+  }
+
+  .nav-links button:hover { color: var(--text); }
+
+  /* ---- HERO ---- */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 7rem 2rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+  }
+
+  .hero-glow {
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(232,255,71,0.06) 0%, transparent 70%);
+    top: -100px; left: 50%;
+    transform: translateX(-50%);
+    pointer-events: none;
+  }
+
+  .hero-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .hero-tag::before {
+    content: '';
+    display: block;
+    width: 40px; height: 1px;
+    background: var(--accent);
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 8vw, 7rem);
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    max-width: 900px;
+    position: relative;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    margin-top: 2rem;
+    max-width: 520px;
+    color: var(--muted);
+    font-size: 1.05rem;
+    font-weight: 300;
+  }
+
+  .hero-cta {
+    margin-top: 3rem;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.75rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.02em;
+    border: none;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #0a0a0f;
+  }
+
+  .btn-primary:hover {
+    background: #f5ff80;
+    transform: translateY(-2px);
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+
+  .btn-ghost:hover {
+    border-color: rgba(255,255,255,0.25);
+    background: var(--surface);
+  }
+
+  /* ---- STATS BAR ---- */
+  .stats-bar {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 1.5rem 2rem;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+  }
+
+  .stat {
+    flex: 1;
+    min-width: 160px;
+    padding: 0 2rem;
+    border-right: 1px solid var(--border);
+    text-align: center;
+  }
+
+  .stat:last-child { border-right: none; }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent);
+    display: block;
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  /* ---- SECTIONS ---- */
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  section {
+    padding: 6rem 0;
+  }
+
+  .section-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--accent2);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .section-tag::before {
+    content: '';
+    display: inline-block;
+    width: 20px; height: 2px;
+    background: var(--accent2);
+  }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+  }
+
+  .lead {
+    font-size: 1.15rem;
+    color: var(--muted);
+    max-width: 680px;
+    margin-bottom: 3rem;
+    font-weight: 300;
+  }
+
+  /* ---- COMPANY CARDS ---- */
+  .company-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-top: 3rem;
+  }
+
+  .company-card {
+    background: var(--surface);
+    padding: 2rem;
+    transition: background 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .company-card:hover { background: var(--surface2); }
+
+  .company-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+
+  .card-google::before { background: #4285f4; }
+  .card-meta::before { background: #1877f2; }
+  .card-apple::before { background: #a2aaad; }
+  .card-amazon::before { background: #ff9900; }
+  .card-microsoft::before { background: #00a4ef; }
+
+  .company-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .company-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .company-desc {
+    font-size: 0.875rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .company-tag {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.25rem 0.6rem;
+    background: rgba(232,255,71,0.08);
+    border: 1px solid rgba(232,255,71,0.2);
+    border-radius: 3px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+
+  /* ---- TWO-COL LAYOUT ---- */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  @media (max-width: 768px) {
+    .two-col { grid-template-columns: 1fr; gap: 2rem; }
+  }
+
+  /* ---- PRIVACY SECTION ---- */
+  .privacy-bg {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .data-list {
+    list-style: none;
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border: 1px solid var(--border);
+  }
+
+  .data-item {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+  }
+
+  .data-item:last-child { border-bottom: none; }
+  .data-item:hover { background: var(--surface2); }
+
+  .data-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+    width: 40px;
+    text-align: center;
+  }
+
+  .data-text strong {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 0.2rem;
+  }
+
+  .data-text span {
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  /* ---- CALLOUT BOX ---- */
+  .callout {
+    border-left: 3px solid var(--accent);
+    padding: 1.5rem 2rem;
+    background: rgba(232,255,71,0.04);
+    margin: 2.5rem 0;
+    position: relative;
+  }
+
+  .callout-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .callout p {
+    font-size: 1.05rem;
+    font-style: italic;
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  .callout-orange {
+    border-left-color: var(--accent2);
+    background: rgba(255,107,53,0.04);
+  }
+
+  .callout-orange .callout-label { color: var(--accent2); }
+
+  .callout-teal {
+    border-left-color: var(--accent3);
+    background: rgba(77,255,206,0.04);
+  }
+
+  .callout-teal .callout-label { color: var(--accent3); }
+
+  /* ---- ALGORITHM SECTION ---- */
+  .algo-diagram {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .algo-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    border: 1px solid var(--border);
+    border-bottom: none;
+    position: relative;
+    transition: background 0.15s;
+  }
+
+  .algo-step:last-child { border-bottom: 1px solid var(--border); }
+  .algo-step:hover { background: var(--surface2); }
+
+  .algo-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent2);
+    background: rgba(255,107,53,0.1);
+    border: 1px solid rgba(255,107,53,0.2);
+    border-radius: 3px;
+    padding: 0.3rem 0.6rem;
+    flex-shrink: 0;
+    margin-top: 0.2rem;
+    letter-spacing: 0.1em;
+  }
+
+  .algo-content strong {
+    display: block;
+    font-size: 0.95rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .algo-content p {
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+
+  /* ---- KEY CONCEPTS ---- */
+  .concepts-bg {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .concepts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 2.5rem;
+  }
+
+  .concept-pill {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem 1.25rem;
+    transition: all 0.2s;
+  }
+
+  .concept-pill:hover {
+    border-color: rgba(232,255,71,0.3);
+    background: rgba(232,255,71,0.04);
+  }
+
+  .concept-term {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 0.35rem;
+  }
+
+  .concept-def {
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* ---- CONCLUSION ---- */
+  .conclusion-box {
+    border: 1px solid var(--border);
+    padding: 3rem;
+    position: relative;
+    background: var(--surface);
+  }
+
+  .conclusion-box::before {
+    content: '"';
+    position: absolute;
+    top: -1.5rem; left: 2rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 8rem;
+    color: var(--accent);
+    opacity: 0.15;
+    line-height: 1;
+  }
+
+  /* ---- REFERENCES ---- */
+  .ref-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-top: 2rem;
+    border: 1px solid var(--border);
+  }
+
+  .ref-item {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.82rem;
+    line-height: 1.6;
+    color: var(--muted);
+    transition: background 0.15s;
+  }
+
+  .ref-item:last-child { border-bottom: none; }
+  .ref-item:hover { background: var(--surface2); }
+
+  .ref-item a {
+    color: var(--accent3);
+    text-decoration: none;
+  }
+
+  .ref-item a:hover { text-decoration: underline; }
+
+  .ref-item strong {
+    color: var(--text);
+    display: block;
+    margin-bottom: 0.2rem;
+  }
+
+  /* ---- FOOTER ---- */
+  footer {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 2.5rem;
+    text-align: center;
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+
+  footer strong { color: var(--text); }
+
+  /* ---- PROSE ---- */
+  .prose p { margin-bottom: 1.25rem; }
+  .prose p:last-child { margin-bottom: 0; }
+
+  /* ---- EXAM TIP ---- */
+  .exam-tip {
+    display: flex;
+    gap: 1rem;
+    background: rgba(77,255,206,0.04);
+    border: 1px solid rgba(77,255,206,0.15);
+    border-radius: 6px;
+    padding: 1.25rem 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .exam-tip-icon {
+    font-size: 1.25rem;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+
+  .exam-tip-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--accent3);
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+
+  .exam-tip-text {
+    font-size: 0.875rem;
+    color: var(--text);
+  }
+
+  /* ---- ANIMATIONS ---- */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero > * {
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .hero-tag { animation-delay: 0.1s; }
+  .hero h1 { animation-delay: 0.2s; }
+  .hero-sub { animation-delay: 0.3s; }
+  .hero-cta { animation-delay: 0.4s; }
+
+  /* ---- GDPR BOX ---- */
+  .gdpr-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 2rem;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.5rem;
+    align-items: start;
+    margin-top: 2rem;
+  }
+
+  .gdpr-flag {
+    font-size: 3rem;
+    line-height: 1;
+  }
+
+  .gdpr-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .gdpr-text {
+    font-size: 0.875rem;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  /* responsive nav */
+  @media (max-width: 600px) {
+    .nav-links { display: none; }
+    .stats-bar { flex-wrap: wrap; }
+    .stat { min-width: 140px; }
+    .conclusion-box { padding: 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-logo">Tech &amp; Society // VGS</span>
+  <ul class="nav-links">
+    <li><button onclick="document.getElementById('companies').scrollIntoView({behavior:'smooth'})">The Giants</button></li>
+    <li><button onclick="document.getElementById('privacy').scrollIntoView({behavior:'smooth'})">Privacy</button></li>
+    <li><button onclick="document.getElementById('news').scrollIntoView({behavior:'smooth'})">News</button></li>
+    <li><button onclick="document.getElementById('algorithms').scrollIntoView({behavior:'smooth'})">Algorithms</button></li>
+    <li><button onclick="document.getElementById('concepts').scrollIntoView({behavior:'smooth'})">Key Concepts</button></li>
+    <li><button onclick="document.getElementById('conclusion').scrollIntoView({behavior:'smooth'})">Conclusion</button></li>
+  </ul>
+  <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()">☀ Light</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="container">
+    <div class="hero-tag">English-language Tech Giants</div>
+    <h1>Who Really Controls the <em>Internet?</em></h1>
+    <p class="hero-sub">A complete guide on how US tech companies shape global privacy, news, and public debate — and what that means for all of us.</p>
+    <div class="hero-cta">
+      <button class="btn btn-primary" onclick="document.getElementById('companies').scrollIntoView({behavior:'smooth'})">Start Reading ↓</button>
+      <button class="btn btn-ghost" onclick="document.getElementById('concepts').scrollIntoView({behavior:'smooth'})">Jump to Key Concepts</button>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat">
+    <span class="stat-num">4.9B</span>
+    <span class="stat-label">Social media users worldwide</span>
+  </div>
+  <div class="stat">
+    <span class="stat-num">91%</span>
+    <span class="stat-label">Search engine market: Google</span>
+  </div>
+  <div class="stat">
+    <span class="stat-num">3B+</span>
+    <span class="stat-label">Facebook monthly active users</span>
+  </div>
+  <div class="stat">
+    <span class="stat-num">5</span>
+    <span class="stat-label">US companies dominate the web</span>
+  </div>
+</div>
+
+<!-- INTRODUCTION -->
+<section id="intro">
+  <div class="container">
+    <div class="section-tag">Introduction</div>
+    <h2>A Few Companies, Billions of Users</h2>
+    <p class="lead">When you search for something, scroll your feed, or open a news app, you are almost always using a product built by an American tech company. This guide explains why that matters — for you, for journalism, and for democracy.</p>
+    <div class="prose">
+      <p>Google, Apple, Meta (which owns Facebook, Instagram, and WhatsApp), Amazon, and Microsoft are sometimes called the "Big Tech" companies. They are all based in the United States — part of the English-speaking world. Together, they design the search engines, social media platforms, and operating systems that the vast majority of the world's internet users depend on every day.</p>
+      <p>Because these platforms are controlled by just a few companies, they have enormous power over two things that matter in a democracy: <strong>privacy</strong> (what data about you is collected and how it is used) and <strong>news</strong> (what information you see and which stories reach you). Their algorithms — the computer systems that decide what to show you — can also make societies more divided.</p>
+    </div>
+    <div class="callout">
+      <div class="callout-label">Thesis</div>
+      <p>Because these platforms are controlled by a small number of English-speaking companies, they shape global news and privacy, and their algorithms can make societies more politically divided.</p>
+    </div>
+  </div>
+</section>
+
+<!-- COMPANIES -->
+<section id="companies">
+  <div class="container">
+    <div class="section-tag">The Players</div>
+    <h2>The Tech Giants You Need to Know</h2>
+    <p class="lead">Five US-based companies dominate the digital landscape. Here is what each one controls — and why it gives them power over global information.</p>
+    <div class="company-grid">
+      <div class="company-card card-google">
+        <div class="company-icon">🔍</div>
+        <div class="company-name">Google</div>
+        <div class="company-desc">Controls how billions of people search for information. Decides which results — including news — appear first. Also owns YouTube, the world's largest video platform, and the Chrome browser.</div>
+        <span class="company-tag">Search &amp; News</span>
+      </div>
+      <div class="company-card card-meta">
+        <div class="company-icon">📲</div>
+        <div class="company-name">Meta</div>
+        <div class="company-desc">Owns Facebook, Instagram, and WhatsApp. Controls how news is shared between people. Journalists and media outlets depend on Meta platforms to reach their audience.</div>
+        <span class="company-tag">Social Media</span>
+      </div>
+      <div class="company-card card-apple">
+        <div class="company-icon">📱</div>
+        <div class="company-name">Apple</div>
+        <div class="company-desc">Controls the App Store on iPhones. Together with Google (Play Store), decides which apps you can download — including which news apps and services are allowed to exist.</div>
+        <span class="company-tag">App Gatekeeping</span>
+      </div>
+      <div class="company-card card-amazon">
+        <div class="company-icon">☁️</div>
+        <div class="company-name">Amazon</div>
+        <div class="company-desc">Owns Amazon Web Services (AWS), which powers a huge share of the internet's servers. Also owns The Washington Post, one of the USA's most influential newspapers.</div>
+        <span class="company-tag">Cloud Infrastructure</span>
+      </div>
+      <div class="company-card card-microsoft">
+        <div class="company-icon">💻</div>
+        <div class="company-name">Microsoft</div>
+        <div class="company-desc">Runs Bing and LinkedIn, and is a major investor in OpenAI. Microsoft products are used by schools, governments, and offices worldwide, giving it deep access to institutional data.</div>
+        <span class="company-tag">Enterprise &amp; AI</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INFORMATION FLOW -->
+<section id="flow">
+  <div class="container">
+    <div class="section-tag">Information Control</div>
+    <h2>How Tech Giants Control Information Flow</h2>
+    <p class="lead">The "flow of information" — what you see, read, and believe — is shaped by a small number of companies, not by independent national media systems alone.</p>
+    <div class="two-col">
+      <div class="prose">
+        <p><strong>Google and Search:</strong> When you type a question into Google, its algorithm decides which websites appear first. For most countries, Google controls more than 90% of all web searches. This means Google effectively decides what information billions of people encounter on any given topic — including news, politics, and health.</p>
+        <p><strong>Meta and News Sharing:</strong> Facebook and Instagram are where many people share and discover news. Editors at news organisations know that if Meta's algorithm stops promoting their stories, they can lose the majority of their online readership overnight. This gives Meta enormous, indirect power over what journalism looks like.</p>
+        <p><strong>Apple and Google App Stores:</strong> Both companies act as "gatekeepers" for smartphones. A news app that is removed from both stores essentially cannot reach mobile users. This gives Apple and Google quiet but real power over which information services can exist and thrive.</p>
+      </div>
+      <div>
+        <div class="callout callout-orange">
+          <div class="callout-label">Key Argument</div>
+          <p>The "flow of information" is no longer controlled only by governments or traditional media — it is shaped by a handful of private, American companies whose primary goal is profit, not the public interest.</p>
+        </div>
+        <div class="exam-tip" style="margin-top:1.5rem">
+          <div class="exam-tip-icon">📝</div>
+          <div>
+            <div class="exam-tip-label">Worth Remembering</div>
+            <div class="exam-tip-text">News is no longer only chosen by editors; it is also shaped by which companies control distribution and advertising money.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRIVACY -->
+<section id="privacy" class="privacy-bg">
+  <div class="container">
+    <div class="section-tag">Privacy</div>
+    <h2>Effects on Global Privacy</h2>
+    <p class="lead">Tech companies collect vast amounts of personal data. This raises serious questions about surveillance, manipulation, and who really owns information about your life.</p>
+
+    <h3 style="font-size:1.1rem; font-weight:600; margin-bottom:1rem; color:var(--muted)">What data is collected?</h3>
+    <ul class="data-list">
+      <li class="data-item">
+        <span class="data-icon">🔍</span>
+        <div class="data-text"><strong>Search history</strong><span>Every query you type into Google — what you're curious about, worried about, or shopping for.</span></div>
+      </li>
+      <li class="data-item">
+        <span class="data-icon">👍</span>
+        <div class="data-text"><strong>Likes, posts, and comments</strong><span>Everything you interact with on Facebook and Instagram reveals your opinions and interests.</span></div>
+      </li>
+      <li class="data-item">
+        <span class="data-icon">📍</span>
+        <div class="data-text"><strong>Location data</strong><span>Your phone tracks where you are — and tech platforms often collect and store this continuously.</span></div>
+      </li>
+      <li class="data-item">
+        <span class="data-icon">📱</span>
+        <div class="data-text"><strong>App usage patterns</strong><span>Which apps you use, when, and for how long — a detailed map of your daily life.</span></div>
+      </li>
+      <li class="data-item">
+        <span class="data-icon">🛒</span>
+        <div class="data-text"><strong>Purchase and browsing history</strong><span>What you look at online, even if you don't buy — used to build detailed consumer profiles.</span></div>
+      </li>
+    </ul>
+
+    <div class="two-col" style="margin-top: 3rem;">
+      <div class="prose">
+        <p>This data is primarily used to target advertisements — to show you ads for products you are likely to buy. But it also raises deeper concerns: surveillance by governments, data breaches that expose private information, and the risk that companies use data in ways users never agreed to.</p>
+        <p>Amnesty International has described these data practices as a threat to human rights, arguing that constant profiling and personalisation can affect not just what you buy, but what you believe and how you see the world.</p>
+        <p>Meta in particular has been criticised for tracking users even when they have said no to tracking — for example, by using tools that follow you across websites and apps you do not even own.</p>
+      </div>
+      <div>
+        <div class="gdpr-box">
+          <div class="gdpr-flag">🇪🇺</div>
+          <div>
+            <div class="gdpr-title">The GDPR Solution</div>
+            <p class="gdpr-text">In 2018, the European Union introduced the <strong>General Data Protection Regulation (GDPR)</strong> — one of the world's strongest privacy laws. It gives EU citizens the right to know what data is collected, the right to delete it, and the right to say no. It also forces companies to ask for clear consent before tracking users.</p>
+            <p class="gdpr-text" style="margin-top:0.75rem">However, the same companies often apply <em>weaker standards</em> in countries without similar laws — especially in the Global South. This creates a <strong>global privacy gap</strong>: your rights depend on where you live, even though the same company is collecting your data.</p>
+          </div>
+        </div>
+        <div class="exam-tip" style="margin-top:1.5rem">
+          <div class="exam-tip-icon">⭐</div>
+          <div>
+            <div class="exam-tip-label">Key Insight</div>
+            <div class="exam-tip-text">The same company can treat European users more strictly than users in regions with weaker laws — this "global privacy gap" reveals a deeply unequal distribution of digital rights.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWS -->
+<section id="news">
+  <div class="container">
+    <div class="section-tag">Journalism</div>
+    <h2>Effects on Global News</h2>
+    <p class="lead">Tech platforms have not just changed how we access news — they have changed the economics of journalism itself, making media organisations dependent on Big Tech.</p>
+    <div class="two-col">
+      <div class="prose">
+        <p><strong>Who decides what you read?</strong> When you open Facebook or Google News, an algorithm — not a human editor — decides which articles appear at the top of your screen. This means that the news millions of people see every day is filtered by a company whose primary interest is keeping you engaged, not informing you.</p>
+        <p><strong>Economic dependence:</strong> Most news organisations today depend on Google and Meta for two things: traffic (readers clicking through to their sites) and advertising revenue. When these platforms change their algorithms or reduce payments to news publishers, entire newsrooms can be devastated. The Brookings Institution has described this as a deeply unequal "frenemies" relationship, where journalism depends on tech but tech has all the power.</p>
+        <p><strong>Media environment capture:</strong> Some critics use the term "media environment capture" to describe the situation where tech platforms shape the entire news ecosystem — not just distributing news, but deciding what kind of journalism gets rewarded, which topics trend, and which stories disappear.</p>
+      </div>
+      <div>
+        <div class="callout callout-teal">
+          <div class="callout-label">Key Term</div>
+          <p>"Media environment capture" — when tech platforms shape the whole news ecosystem instead of just being neutral tools for distribution.</p>
+        </div>
+        <div style="margin-top:1.5rem; background:var(--surface2); border:1px solid var(--border); padding:1.5rem;">
+          <div style="font-family:'DM Mono',monospace; font-size:0.65rem; letter-spacing:0.15em; color:var(--accent3); text-transform:uppercase; margin-bottom:0.75rem;">Pew Research Finding</div>
+          <p style="font-size:0.875rem; color:var(--muted); line-height:1.65">Surveys across multiple countries show that many people believe social media makes it easier for <strong style="color:var(--text)">misinformation and rumours to spread</strong>. When algorithms promote emotional or sensational content (because it gets more clicks), false stories can reach millions of people before fact-checkers respond.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ALGORITHMS & POLARISATION -->
+<section id="algorithms" style="background:var(--surface); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+  <div class="container">
+    <div class="section-tag">Algorithms</div>
+    <h2>Algorithms and Polarisation</h2>
+    <p class="lead">The computer systems that decide what you see are not neutral. They are designed to keep you scrolling — and that can divide societies.</p>
+
+    <div class="two-col">
+      <div>
+        <div class="algo-diagram">
+          <div class="algo-step">
+            <span class="algo-num">01</span>
+            <div class="algo-content">
+              <strong>The Algorithm Watches You</strong>
+              <p>Every like, share, comment, and second you spend on a post is recorded. The algorithm builds a model of what makes you react.</p>
+            </div>
+          </div>
+          <div class="algo-step">
+            <span class="algo-num">02</span>
+            <div class="algo-content">
+              <strong>It Shows You More of the Same</strong>
+              <p>To maximise your engagement, the algorithm shows you content similar to what you already liked — opinions that match yours, stories that confirm your views.</p>
+            </div>
+          </div>
+          <div class="algo-step">
+            <span class="algo-num">03</span>
+            <div class="algo-content">
+              <strong>Echo Chambers Form</strong>
+              <p>Over time, you mainly see one type of opinion. You encounter fewer people who think differently. Your "filter bubble" keeps opposing views out of sight.</p>
+            </div>
+          </div>
+          <div class="algo-step">
+            <span class="algo-num">04</span>
+            <div class="algo-content">
+              <strong>Extreme Content Gets Boosted</strong>
+              <p>Emotional and outrage-driven posts get the most reactions. The algorithm interprets high engagement as quality — so extreme content rises to the top.</p>
+            </div>
+          </div>
+          <div class="algo-step">
+            <span class="algo-num">05</span>
+            <div class="algo-content">
+              <strong>Political Polarisation Increases</strong>
+              <p>Research shows that people who get their news primarily through social media are more likely to see political opponents as enemies rather than fellow citizens.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="callout" style="margin-top:0">
+          <div class="callout-label">Core Argument</div>
+          <p>"Algorithms prioritise attention, not truth — and that can divide societies instead of helping them understand each other."</p>
+        </div>
+        <div class="prose" style="margin-top:1.5rem">
+          <p>The key distinction is between what algorithms are <em>designed</em> to do (maximise engagement) and what the <em>side effect</em> can be (polarisation). The companies did not set out to divide society — but their business model of attention-driven advertising creates exactly that incentive.</p>
+          <p>This is sometimes described as "engagement-driven design": platforms are built to be as addictive as possible, and emotional, divisive content is more addictive than calm, nuanced reporting.</p>
+        </div>
+        <div class="exam-tip">
+          <div class="exam-tip-icon">💡</div>
+          <div>
+            <div class="exam-tip-label">Note</div>
+            <div class="exam-tip-text"><strong>Echo chamber</strong> and <strong>filter bubble</strong> are related but different. An echo chamber is social — you surround yourself with like-minded people. A filter bubble is algorithmic — the platform filters out other views automatically.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KEY CONCEPTS -->
+<section id="concepts" class="concepts-bg">
+  <div class="container">
+    <div class="section-tag">Glossary</div>
+    <h2>Key Concepts</h2>
+    <p class="lead">These are the core terms used when discussing Big Tech and its impact on society. Understanding them helps you follow the debate — wherever you encounter it.</p>
+    <div class="concepts-grid">
+      <div class="concept-pill">
+        <span class="concept-term">Big Tech / Tech Giants</span>
+        <span class="concept-def">The largest technology companies — primarily Google, Apple, Meta, Amazon, and Microsoft — that dominate global digital infrastructure.</span>
+      </div>
+      <div class="concept-pill">
+        <span class="concept-term">Information Flow</span>
+        <span class="concept-def">How news and facts move from sources to audiences. Big Tech companies now control a large part of this flow.</span>
+      </div>
+      <div class="concept-pill">
+        <span class="concept-term">Personal Data / Surveillance</span>
+        <span class="concept-def">Information collected about you — your searches, location, and behaviour — used by companies to target advertising.</span>
+      </div>
+      <div class="concept-pill">
+        <span class="concept-term">GDPR</span>
+        <span class="concept-def">General Data Protection Regulation. EU law that gives citizens control over their personal data and limits how companies can use it.</span>
+      </div>
+      <div class="concept-pill">
+        <span class="concept-term">Global Privacy Gap</span>
+        <span class="concept-def">The fact that the same company applies stronger privacy rules in the EU than in countries with weaker laws, creating unequal protection worldwide.</span>
+      </div>
+      <div class="concept-pill">
+        <span class="concept-term">Media Environment Capture</span>
+        <span class="concept-def">When tech platforms shape the whole news ecosystem — not just distributing news, but deciding which journalism gets rewarded.</span>
+      </div>
+      <div class="concept-pill">
+        <span class="concept-term">Echo Chamber</span>
+        <span class="concept-def">A social environment where a person only encounters opinions that agree with their own, reinforcing existing beliefs.</span>
+      </div>
+      <div class="concept-pill">
+        <span class="concept-term">Filter Bubble</span>
+        <span class="concept-def">When an algorithm customises your feed to match your preferences, filtering out content that challenges your worldview.</span>
+      </div>
+      <div class="concept-pill">
+        <span class="concept-term">Algorithmic Polarisation</span>
+        <span class="concept-def">The process by which engagement-driven algorithms increase political division by amplifying extreme and emotional content.</span>
+      </div>
+      <div class="concept-pill">
+        <span class="concept-term">Engagement-Driven Design</span>
+        <span class="concept-def">Platforms built to maximise the time you spend on them — prioritising emotional content because it generates more reactions.</span>
+      </div>
+      <div class="concept-pill">
+        <span class="concept-term">Gatekeeping</span>
+        <span class="concept-def">Controlling who can access what. Apple and Google "gatekeep" the App Store, deciding which news services can reach smartphone users.</span>
+      </div>
+      <div class="concept-pill">
+        <span class="concept-term">Misinformation</span>
+        <span class="concept-def">False information. Algorithms can spread misinformation rapidly because emotional false stories often get more engagement than accurate reporting.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONCLUSION -->
+<section id="conclusion">
+  <div class="container">
+    <div class="section-tag">Conclusion</div>
+    <h2>Putting It All Together</h2>
+    <p class="lead">A summary of the main arguments — and why this topic matters beyond any classroom.</p>
+    <div class="conclusion-box">
+      <div class="prose" style="position:relative; z-index:1">
+        <p>In conclusion, the fact that most major tech companies come from the English-speaking world means that they have enormous power over global privacy and news. They collect vast amounts of personal data, help deliver news to billions of people, and use algorithms that keep users scrolling.</p>
+        <p>This can be beneficial: these platforms connect people across borders and give access to information that was previously hard to find. However, the downsides are serious. Privacy protections are unequal across the world. News organisations have become economically dependent on tech platforms. And algorithms increase polarisation by showing people only what they already agree with.</p>
+        <p>Therefore, the model of a few global companies shaping the world's information flow raises important questions about who really controls our privacy, our news, and our public debate today.</p>
+      </div>
+    </div>
+    <div class="exam-tip" style="margin-top:2rem">
+      <div class="exam-tip-icon">✅</div>
+      <div>
+        <div class="exam-tip-label">The Big Picture</div>
+        <div class="exam-tip-text">A handful of private companies now shape what billions of people read, believe, and share every day. Understanding how — and why it matters — is one of the most important things you can do as a citizen of the digital world.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REFERENCES -->
+<section id="references" style="background:var(--surface); border-top:1px solid var(--border);">
+  <div class="container">
+    <div class="section-tag">Sources</div>
+    <h2>References</h2>
+    <p class="lead">All sources are reputable and freely accessible. Follow the links to explore further.</p>
+    <ul class="ref-list">
+      <li class="ref-item">
+        <strong>Amnesty International (2025)</strong>
+        Why are Big Tech companies a threat to human rights? <a href="https://www.amnesty.org/en/latest/news/2025/08/why-are-big-tech-companies-a-threat-to-human-rights/" target="_blank">amnesty.org →</a>
+      </li>
+      <li class="ref-item">
+        <strong>OECD (2024)</strong>
+        OECD Digital Economy Outlook 2024, Vol. 2. <a href="https://www.oecd.org/en/publications/oecd-digital-economy-outlook-2024-volume-2_3adf705b-en/full-report/" target="_blank">oecd.org →</a>
+      </li>
+      <li class="ref-item">
+        <strong>GDPR.eu (2019)</strong>
+        What does the GDPR mean for business and consumer privacy? <a href="https://gdpr.eu/what-the-regulation-means-for-everyday-internet-user/" target="_blank">gdpr.eu →</a>
+      </li>
+      <li class="ref-item">
+        <strong>EPIC (2025)</strong>
+        Social media privacy. <a href="https://epic.org/issues/consumer-privacy/social-media-privacy/" target="_blank">epic.org →</a>
+      </li>
+      <li class="ref-item">
+        <strong>Journalism Funders Forum (2025)</strong>
+        Toward media environment capture: The influence of Big Tech on news media. <a href="https://journalismfundersforum.com/toward-media-environment-capture-the-influence-of-big-tech-on-news-media/" target="_blank">journalismfundersforum.com →</a>
+      </li>
+      <li class="ref-item">
+        <strong>Brookings Institution (2022)</strong>
+        Frenemies: Global approaches to rebalance the Big Tech v. journalism relationship. <a href="https://www.brookings.edu/articles/frenemies-global-approaches-to-rebalance-the-big-tech-v-journalism-relationship/" target="_blank">brookings.edu →</a>
+      </li>
+      <li class="ref-item">
+        <strong>Pew Research Center (2022)</strong>
+        Global views of social media and its impacts on society. <a href="https://www.pewresearch.org/global/2022/12/06/views-of-social-media-and-its-impacts-on-society-in-advanced-economies-2022/" target="_blank">pewresearch.org →</a>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <strong>Tech &amp; Society — Guide</strong><br>
+  All sources linked above are reputable and freely accessible.<br><br>
+  <strong>Barbara Anna Zielonka</strong> / Nannestad High School
+</footer>
+
+<script>
+  function toggleTheme() {
+    const html = document.documentElement;
+    const btn = document.getElementById('themeBtn');
+    if (html.classList.contains('light')) {
+      html.classList.remove('light');
+      btn.textContent = '☀ Light';
+    } else {
+      html.classList.add('light');
+      btn.textContent = '☾ Dark';
+    }
+  }
+</script>
+
+</body>
+</html>
